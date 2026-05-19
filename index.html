@@ -1069,56 +1069,89 @@ function goBack() {
 function showResult() {
   const result = getResult(answers);
 
+  const audio = new Audio('quiz%20finish.wav');
+  audio.play();
+
   document.getElementById("progressWrap").style.display = "none";
+
   document.getElementById("quizBody").innerHTML = `
     <div class="result-wrap">
+
       <span class="result-badge">✦ Your Adventure Match ✦</span>
+
       <h2 class="result-title">${result.title}</h2>
+
       <p class="result-tagline">${result.tagline}</p>
 
       <p class="result-why">${result.why}</p>
 
       <div class="result-card">
+
         <h3>⚔ Recommended for You</h3>
 
-        <div class="product-rec">
-          <span class="product-emoji">${result.primary.emoji}</span>
-          <div class="product-info">
-            <div class="product-name">${result.primary.name}</div>
-            <div class="product-desc">${result.primary.desc}</div>
-            <div class="product-price">${result.primary.price}</div>
-          </div>
-        </div>
+        <a href="${result.primary.url}" class="product-link" target="_blank">
+          <div class="product-rec">
+            <span class="product-emoji">${result.primary.emoji}</span>
 
-        <div class="product-rec">
-          <span class="product-emoji">${result.secondary.emoji}</span>
-          <div class="product-info">
-            <div class="product-name">${result.secondary.name}</div>
-            <div class="product-desc">${result.secondary.desc}</div>
-            <div class="product-price">${result.secondary.price}</div>
+            <div class="product-info">
+              <div class="product-name">${result.primary.name}</div>
+              <div class="product-desc">${result.primary.desc}</div>
+              <div class="product-price">${result.primary.price}</div>
+            </div>
           </div>
-        </div>
+        </a>
+
+        <a href="${result.secondary.url}" class="product-link" target="_blank">
+          <div class="product-rec">
+            <span class="product-emoji">${result.secondary.emoji}</span>
+
+            <div class="product-info">
+              <div class="product-name">${result.secondary.name}</div>
+              <div class="product-desc">${result.secondary.desc}</div>
+              <div class="product-price">${result.secondary.price}</div>
+            </div>
+          </div>
+        </a>
 
         ${result.bonus ? `
-        <div class="product-rec">
-          <span class="product-emoji">${result.bonus.emoji}</span>
-          <div class="product-info">
-            <div class="product-name">${result.bonus.name}</div>
-            <div class="product-desc">${result.bonus.desc}</div>
-            <div class="product-price">${result.bonus.price}</div>
+        <a href="${result.bonus.url}" class="product-link" target="_blank">
+          <div class="product-rec">
+            <span class="product-emoji">${result.bonus.emoji}</span>
+
+            <div class="product-info">
+              <div class="product-name">${result.bonus.name}</div>
+              <div class="product-desc">${result.bonus.desc}</div>
+              <div class="product-price">${result.bonus.price}</div>
+            </div>
           </div>
-        </div>` : ''}
+        </a>
+        ` : ''}
+
       </div>
+
+      <div class="cta-wrap">
+
+        <a href="${result.primary.url}"
+           class="cta-primary"
+           target="_blank">
+           🗡️ Get ${result.primary.name} →
+        </a>
+
+        <a href="https://www.cavalieradventures.com.au/shop"
+           class="cta-secondary"
+           target="_blank">
+           Browse All Adventures
+        </a>
+
+        <button class="restart-btn"
+                onclick="restartQuiz()">
+          ↩ Retake the quiz
+        </button>
+
+      </div>
+
     </div>
   `;
-}
-
-function submitEmail() {
-  const email = document.getElementById("emailInput").value;
-  if (email && email.includes("@")) {
-    document.getElementById("emailRow").innerHTML = `<p class="email-thanks">✨ You're in! Check your inbox for your free sheet.</p>`;
-    // In production: send to your email platform here
-  }
 }
 
 function restartQuiz() {
