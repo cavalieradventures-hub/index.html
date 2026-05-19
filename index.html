@@ -372,36 +372,31 @@
     letter-spacing: 0.5px;
   }
 
-  .product-rec {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--parchment-deeper);
-  }
-  .product-rec:last-child { border-bottom: none; padding-bottom: 0; }
+  .product-link {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 14px;
+}
 
-  .product-emoji { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.product-rec {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 10px;
+  background: #fffdf7;
+  border: 2px solid #d9c28b;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
 
-  .product-info { flex: 1; }
-
-  .product-name {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 2px;
-  }
-
-  .product-desc {
-    font-size: 13px;
-    color: var(--ink-light);
-    font-style: italic;
-    line-height: 1.35;
-    margin-bottom: 4px;
-  }
-
-  .product-price {
+.product-rec:hover {
+  transform: translateY(-3px);
+  border-color: #2d5a27;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+}
+    .product-price {
     font-family: 'Cinzel', serif;
     font-size: 12px;
     font-weight: 600;
@@ -426,20 +421,19 @@
   }
 
   .cta-primary {
-    display: block;
-    text-align: center;
-    background: linear-gradient(135deg, var(--forest), var(--forest-light));
-    color: var(--parchment);
-    font-family: 'Cinzel', serif;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    padding: 16px 24px;
-    border-radius: 3px;
-    text-decoration: none;
-    transition: all 0.2s;
-    box-shadow: 0 4px 14px rgba(45,90,39,0.4);
-  }
+  display: block;
+  text-align: center;
+  background: linear-gradient(135deg,#1f6f2d,#2d8a3b);
+  color: #ffffff;
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 22px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 24px rgba(45,90,39,0.4);
+}
   .cta-primary:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(45,90,39,0.5);
@@ -1114,24 +1108,6 @@ function showResult() {
             <div class="product-price">${result.bonus.price}</div>
           </div>
         </div>` : ''}
-      </div>
-
-      <div class="email-section" id="emailSection">
-        <p>🗺️ Save your results + get a <strong>free activity sheet</strong> and exclusive offers!</p>
-        <div class="email-row" id="emailRow">
-          <input type="email" class="email-input" id="emailInput" placeholder="your@email.com">
-          <button class="email-submit" onclick="submitEmail()">Claim It!</button>
-        </div>
-      </div>
-
-      <div class="cta-wrap">
-        <a href="${result.primary.url}" class="cta-primary" target="_blank">
-          🗡️ Get ${result.primary.name} →
-        </a>
-        <a href="https://www.cavalieradventures.com.au/shop" class="cta-secondary" target="_blank">
-          Browse All Adventures
-        </a>
-        <button class="restart-btn" onclick="restartQuiz()">↩ Retake the quiz</button>
       </div>
     </div>
   `;
