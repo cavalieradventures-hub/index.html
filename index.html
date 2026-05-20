@@ -673,76 +673,46 @@ const questions = [
     text: "Has your family played D&D or a role-playing game before?",
     emoji: "📜",
     options: [
-      { emoji: "🙅", label: "Total newcomers", desc: "Never heard of it / just starting out", value: "none" },
+      { emoji: "🙅", label: "Total newcomers", desc: "Never played before", value: "none" },
       { emoji: "👀", label: "Curious beginners", desc: "Tried it once or twice", value: "beginner" },
-      { emoji: "⚔️", label: "Some experience", desc: "Played a few times, know the basics", value: "some" },
-      { emoji: "🏆", label: "We're adventurers!", desc: "Already love RPGs, want more", value: "experienced" }
+      { emoji: "⚔️", label: "Some experience", desc: "Played a few times", value: "some" },
+      { emoji: "🏆", label: "Experienced adventurers", desc: "Already love RPGs", value: "experienced" }
     ]
   },
-  {
-    id: "group",
-    text: "Who's running the game (the Dungeon Master)?",
-    emoji: "🎲",
-    options: [
-      { emoji: "😬", label: "A nervous parent", desc: "I have no idea what I'm doing!", value: "nervous" },
-      { emoji: "🙂", label: "A willing parent", desc: "Happy to try, just need guidance", value: "willing" },
-      { emoji: "👩‍🏫", label: "A teacher", desc: "Running it in a classroom or school", value: "teacher" },
-      { emoji: "🎮", label: "A kid DM", desc: "One of the kids wants to run it", value: "kid_dm" }
-    ]
-  },
-  {
-    id: "players",
-    text: "How many players will be joining the adventure?",
-    emoji: "👥",
-    options: [
-      { emoji: "🧍", label: "Just 1–2", desc: "One kid + parent", value: "small" },
-      { emoji: "👨‍👩‍👧", label: "3–4 players", desc: "Small family or a few friends", value: "medium" },
-      { emoji: "🎉", label: "5+ players", desc: "Big group or classroom", value: "large" },
-      { emoji: "🤷", label: "Not sure yet", desc: "Still figuring it out", value: "unsure" }
-    ]
-  },
+
   {
     id: "time",
-    text: "How long do you want a session to last?",
+    text: "What type of adventure are you looking for?",
     emoji: "⏳",
     options: [
-      { emoji: "⚡", label: "Quick quest", desc: "30–45 minutes", value: "short" },
-      { emoji: "🕐", label: "One session", desc: "45–90 minute one-shot", value: "oneshot" },
+      { emoji: "⚡", label: "Quick one-shot", desc: "30–90 minute adventure", value: "oneshot" },
       { emoji: "📚", label: "Full campaign", desc: "Multiple sessions over weeks", value: "campaign" },
-      { emoji: "🤔", label: "Try first, see!", desc: "Start small, maybe expand", value: "flexible" }
+      { emoji: "🎉", label: "Family game nights", desc: "Something replayable", value: "family" },
+      { emoji: "🤔", label: "Not sure yet", desc: "Just exploring options", value: "flexible" }
     ]
   },
-  {
-    id: "style",
-    text: "What excites your kids the most about adventures?",
-    emoji: "✨",
-    options: [
-      { emoji: "⚔️", label: "Battle & action", desc: "Monsters, fighting, epic moments", value: "combat" },
-      { emoji: "🧩", label: "Puzzles & mystery", desc: "Clues, riddles, exploring", value: "puzzle" },
-      { emoji: "🗣️", label: "Story & characters", desc: "Drama, choices, talking to NPCs", value: "story" },
-      { emoji: "🌈", label: "A bit of everything", desc: "Action, laughs, story — the works!", value: "mixed" }
-    ]
-  },
+
   {
     id: "theme",
     text: "Which adventure theme sounds most exciting?",
     emoji: "🗺️",
     options: [
-      { emoji: "🌲", label: "Magical forest", desc: "Enchanted woods, fairies, mystery", value: "forest" },
-      { emoji: "🏔️", label: "Underground caves", desc: "Dungeons, hidden creatures, treasure", value: "cave" },
-      { emoji: "☁️", label: "Sky & pirates", desc: "Airships, flying islands, daring heists", value: "sky" },
-      { emoji: "🏜️", label: "Desert oasis", desc: "Ancient ruins, golden sands, secrets", value: "desert" }
+      { emoji: "🌲", label: "Magical forest", desc: "Fairies, mystery, enchanted woods", value: "forest" },
+      { emoji: "🏔️", label: "Underground caves", desc: "Dungeons and monsters", value: "cave" },
+      { emoji: "☁️", label: "Sky pirates", desc: "Airships and flying islands", value: "sky" },
+      { emoji: "🏜️", label: "Desert adventure", desc: "Ruins, treasure, mystery", value: "desert" }
     ]
   },
+
   {
     id: "priority",
-    text: "What matters most to YOU as the adult running this?",
+    text: "What matters most to you?",
     emoji: "🎯",
     options: [
-      { emoji: "🚀", label: "Easy & fast", desc: "No prep — just print and play tonight", value: "easy" },
-      { emoji: "📖", label: "Great story", desc: "Rich narrative the kids will remember", value: "story" },
-      { emoji: "📚", label: "Learning value", desc: "Builds skills — great for school too", value: "education" },
-      { emoji: "💰", label: "Best value", desc: "Most content for the best price", value: "value" }
+      { emoji: "🚀", label: "Easy to run", desc: "No prep needed", value: "easy" },
+      { emoji: "📖", label: "Amazing story", desc: "Memorable adventures", value: "story" },
+      { emoji: "📚", label: "Educational value", desc: "Creative learning", value: "education" },
+      { emoji: "💰", label: "Best value", desc: "Most content for the money", value: "value" }
     ]
   },
   {
@@ -751,9 +721,9 @@ const questions = [
     emoji: "💰",
     options: [
       { emoji: "🆓", label: "Free to start", desc: "Just want to try it first", value: "free" },
-      { emoji: "🪙", label: "Under $25", desc: "Trying something affordable", value: "low" },
+      { emoji: "🪙", label: "Under $25", desc: "Affordable starter", value: "low" },
       { emoji: "💎", label: "$25–$50", desc: "Ready for a proper adventure", value: "mid" },
-      { emoji: "👑", label: "$50+", desc: "All-in — give me everything!", value: "high" }
+      { emoji: "👑", label: "$50+", desc: "Give me the full experience", value: "high" }
     ]
   }
 ];
@@ -870,19 +840,6 @@ const products = {
 // Scoring / result logic
 function getResult(answers) {
   const a = answers;
-
-  // Teacher path
-  if (a.group === "teacher") {
-    return {
-      title: "The Classroom Quest",
-      tagline: "Designed for educators and school settings",
-      why: "You're running this for a group of kids in an educational setting. Our Education Bundle is specifically built for classrooms — structured, curriculum-friendly, and ready to use with no prep. Pair it with the DM Guide for total confidence.",
-      primary: products.educationBundle,
-      secondary: products.dmGuide,
-      bonus: products.freeAdventure
-    };
-  }
-
   // Very young kids
   if (a.age === "3-5") {
     return {
@@ -927,17 +884,6 @@ function getResult(answers) {
     };
   }
 
-  // Mixed ages with family focus
-  if (a.age === "mixed" || a.players === "large") {
-    if (a.budget === "high") {
-      return {
-        title: "The Family Epic",
-        tagline: "Adventures for the whole family, all ages",
-        why: "When you've got mixed ages and a big group, you want content that stretches. The Family Game Night Bundle covers ages 5–12 with 3 adventures and a coloring book — or go for the Mega Set for the ultimate family collection.",
-        primary: products.familyBundle,
-        secondary: products.megaSet,
-        bonus: null
-      };
     }
     return {
       title: "The Family Adventure",
@@ -961,17 +907,6 @@ function getResult(answers) {
       bonus: null
     };
   }
-
-  // Nervous DM + beginner
-  if (a.group === "nervous" && (a.experience === "none" || a.experience === "beginner")) {
-    return {
-      title: "The Confident First Quest",
-      tagline: "Everything you need to feel prepared",
-      why: "You've never done this before and that's completely fine — our products are built for exactly you. Start with the free adventure to see how easy it is, then grab the DM Guide for total confidence. Once you're comfortable, the Starter Kit gives you 5 adventures.",
-      primary: products.freeAdventure,
-      secondary: products.dmGuide,
-      bonus: products.hollowCaves
-    };
   }
 
   // Theme-specific matches
@@ -1033,7 +968,7 @@ function getResult(answers) {
 
   // Weekend / mid budget
   if (a.budget === "mid") {
-    if (a.style === "combat" || a.theme === "cave") {
+    if (a.theme === "cave") {
       return {
         title: "The Cave Delver's Quest",
         tagline: "Action-packed adventure for ages 7–12",
@@ -1071,9 +1006,9 @@ let emailSubmitted = false;
 
 function renderQuestion() {
   const q = questions[currentQ];
-  const pct = Math.round((currentQ / questions.length) * 100);
+  const pct = Math.round(((currentQ + 1) / questions.length) * 100);
 
-  document.getElementById("progressLabel").textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById("progressLabel").textContent = `Adventure Match Progress`;
   document.getElementById("progressPct").textContent = pct + "%";
   document.getElementById("progressFill").style.width = pct + "%";
   document.getElementById("backBtn").disabled = currentQ === 0;
