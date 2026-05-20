@@ -998,9 +998,8 @@ let answers = {};
 
 function renderQuestion() {
   const q = questions[currentQ];
-const pct = Math.round(((currentQ + 1) / questions.length) * 100);
-  
-  document.getElementById("progressLabel").textContent = `Adventure Match Progress`;
+const pct = Math.round((currentQ / questions.length) * 100);  
+document.getElementById("progressLabel").textContent = `Adventure Match Progress`;
   document.getElementById("progressPct").textContent = pct + "%";
   document.getElementById("progressFill").style.width = pct + "%";
   document.getElementById("backBtn").disabled = currentQ === 0;
