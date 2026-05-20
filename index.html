@@ -882,9 +882,8 @@ function getResult(answers) {
       secondary: products.starterPack58,
       bonus: null
     };
-  }
-
-    }
+    // Mixed ages
+  if (a.age === "mixed") {
     return {
       title: "The Family Adventure",
       tagline: "Perfect for mixed ages and big groups",
@@ -894,6 +893,8 @@ function getResult(answers) {
       bonus: products.freeAdventure
     };
   }
+
+  // Ages 7-12 from here
 
   // Ages 7-12 from here
   // Free budget — get the free sample first
