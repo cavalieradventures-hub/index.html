@@ -626,7 +626,7 @@
   <div class="quiz-header">
     <span class="site-badge">⚔ The Enchanted Forest ⚔</span>
     <h1 class="quiz-title">Find Your Perfect<br><span>Adventure</span></h1>
-    <p class="quiz-subtitle">Discover the perfect kids D&D adventure in 2 minutes</p>
+    <p class="quiz-subtitle">Discover the perfect kids D&D adventure in 60 seconds</p>
     <div class="divider">✦</div>
   </div>
 
@@ -870,7 +870,7 @@ function getResult(answers) {
         tagline: "A full adventure path for ages 5–8",
         why: "Your young adventurers are ready for a proper quest! The Starter Pack gives you three beautifully crafted adventures — enough for a whole campaign. Add the DM Guide if you're brand new to running games.",
         primary: products.starterPack58,
-        secondary: a.group === "nervous" ? products.dmGuide : products.andrewsApples,
+        secondary: products.dmGuide,
         bonus: null
       };
     }
@@ -906,7 +906,6 @@ function getResult(answers) {
       secondary: products.hollowCaves,
       bonus: null
     };
-  }
   }
 
   // Theme-specific matches
@@ -1006,7 +1005,7 @@ let emailSubmitted = false;
 
 function renderQuestion() {
   const q = questions[currentQ];
-  const pct = Math.round(((currentQ + 1) / questions.length) * 100);
+  const pct = Math.round((currentQ / (questions.length - 1)) * 100);
 
   document.getElementById("progressLabel").textContent = `Adventure Match Progress`;
   document.getElementById("progressPct").textContent = pct + "%";
@@ -1060,7 +1059,7 @@ function showResult() {
 console.log("Quiz Result:", result.title);
 console.log("Answers:", answers);
   const audio = new Audio('quiz-finish.wav');
-  audio.play();
+  audio.play().catch(() => {});
 
   document.getElementById("progressWrap").style.display = "none";
 
