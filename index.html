@@ -242,8 +242,8 @@
   }
 
   .option-label {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
     font-weight: 600;
     color: var(--ink);
     display: block;
@@ -253,7 +253,7 @@
   }
 
   .option-desc {
-    font-size: 13px;
+  font-size: 14px;
     color: var(--ink-light);
     font-style: italic;
     position: relative;
@@ -490,11 +490,12 @@
 }
   .featured-product {
   animation: resultPop 0.5s ease;
-  border-color: #2d5a27;
-  box-shadow:
-    0 0 0 2px rgba(45,90,39,0.15),
-    0 10px 28px rgba(45,90,39,0.18);
-}
+  border: 3px solid #2d5a27;
+  background: linear-gradient(
+    135deg,
+    #fffdf6,
+    #f7f2df
+  );
 @keyframes resultPop {
   0% {
     transform: scale(0.92);
@@ -526,16 +527,6 @@
     text-decoration: underline;
   }
   .restart-btn:hover { opacity: 1; }
-
-  /* Email capture */
-  .email-section {
-    background: linear-gradient(135deg, rgba(45,90,39,0.1), rgba(45,90,39,0.05));
-    border: 1px solid rgba(45,90,39,0.3);
-    border-radius: 4px;
-    padding: 16px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
 
   .email-section p {
     font-size: 14px;
@@ -874,7 +865,7 @@ function getResult(answers) {
         bonus: null
       };
     }
-    return {
+        return {
       title: "Little Heroes, Big Adventures",
       tagline: "Perfect for ages 5–8",
       why: "For younger kids, Andrew's Amazing Apples is the ideal starting point — specifically designed for ages 5–8 with simple rules and a fun story they'll love. If you enjoy it, the full Starter Pack is incredible value.",
@@ -882,7 +873,9 @@ function getResult(answers) {
       secondary: products.starterPack58,
       bonus: null
     };
-    // Mixed ages
+  }
+
+  // Mixed ages
   if (a.age === "mixed") {
     return {
       title: "The Family Adventure",
@@ -1002,12 +995,11 @@ function getResult(answers) {
 // App state
 let currentQ = 0;
 let answers = {};
-let emailSubmitted = false;
 
 function renderQuestion() {
   const q = questions[currentQ];
-  const pct = Math.round((currentQ / (questions.length - 1)) * 100);
-
+const pct = Math.round(((currentQ + 1) / questions.length) * 100);
+  
   document.getElementById("progressLabel").textContent = `Adventure Match Progress`;
   document.getElementById("progressPct").textContent = pct + "%";
   document.getElementById("progressFill").style.width = pct + "%";
