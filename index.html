@@ -356,12 +356,12 @@
   }
 
   .result-card {
-    background: rgba(255,255,255,0.5);
-    border: 2px solid var(--parchment-deeper);
-    border-radius: 4px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
-  }
+  background: rgba(255,255,255,0.58);
+  border: 2px solid var(--parchment-deeper);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
 
   .result-card h3 {
     font-family: 'Cinzel', serif;
@@ -396,12 +396,33 @@
   background: #ffffff;
   box-shadow: 0 8px 24px rgba(0,0,0,0.14);
 }
-    .product-price {
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--forest);
-  }
+    .product-name {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.product-desc {
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+}
+
+.product-price {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+.product-emoji {
+  font-size: 34px;
+  line-height: 1;
+  flex-shrink: 0;
+}
 
   .result-why {
     font-size: 15px;
@@ -413,7 +434,17 @@
     background: rgba(45,90,39,0.06);
     border-radius: 0 4px 4px 0;
   }
-
+  .trust-badge {
+  text-align: center;
+  font-size: 15px;
+  color: var(--ink-light);
+  background: rgba(45,90,39,0.08);
+  border: 1px solid rgba(45,90,39,0.18);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
   .cta-wrap {
     display: flex;
     flex-direction: column;
@@ -433,25 +464,48 @@
   text-decoration: none;
   transition: all 0.2s ease;
   box-shadow: 0 8px 24px rgba(45,90,39,0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 2px solid rgba(255,255,255,0.15);
 }
-  .cta-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(45,90,39,0.5);
-  }
+
+.cta-primary:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 28px rgba(45,90,39,0.55);
+}
 
   .cta-secondary {
-    display: block;
-    text-align: center;
-    background: transparent;
-    color: var(--ink-light);
-    font-family: 'Crimson Text', serif;
-    font-size: 15px;
-    padding: 10px;
-    text-decoration: none;
-    border: 1px solid var(--parchment-deeper);
-    border-radius: 3px;
-    transition: all 0.2s;
+  display: block;
+  text-align: center;
+  background: #fffdf8;
+  color: #2c1a0e;
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 18px;
+  text-decoration: none;
+  border: 2px solid #c9ab5d;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+  .featured-product {
+  animation: resultPop 0.5s ease;
+  border-color: #2d5a27;
+  box-shadow:
+    0 0 0 2px rgba(45,90,39,0.15),
+    0 10px 28px rgba(45,90,39,0.18);
+}
+@keyframes resultPop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
   }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
   .cta-secondary:hover {
     border-color: var(--gold);
     color: var(--ink);
@@ -572,7 +626,7 @@
   <div class="quiz-header">
     <span class="site-badge">⚔ The Enchanted Forest ⚔</span>
     <h1 class="quiz-title">Find Your Perfect<br><span>Adventure</span></h1>
-    <p class="quiz-subtitle">9 quick questions to guide your quest</p>
+    <p class="quiz-subtitle">Discover the perfect kids D&D adventure in 2 minutes</p>
     <div class="divider">✦</div>
   </div>
 
@@ -1068,7 +1122,8 @@ function goBack() {
 
 function showResult() {
   const result = getResult(answers);
-
+console.log("Quiz Result:", result.title);
+console.log("Answers:", answers);
   const audio = new Audio('quiz-finish.wav');
   audio.play();
 
@@ -1090,7 +1145,7 @@ function showResult() {
         <h3>⚔ Recommended for You</h3>
 
         <a href="${result.primary.url}" class="product-link" target="_blank">
-          <div class="product-rec">
+          <div class="product-rec featured-product">
             <span class="product-emoji">${result.primary.emoji}</span>
 
             <div class="product-info">
@@ -1128,7 +1183,9 @@ function showResult() {
         ` : ''}
 
       </div>
-
+      <div class="trust-badge">
+  ⚔ Trusted by 446+ families who backed The Enchanted Forest on Kickstarter
+</div>
       <div class="cta-wrap">
 
         <a href="${result.primary.url}"
