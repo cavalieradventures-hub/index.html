@@ -1063,7 +1063,8 @@ function showResult() {
 console.log("Quiz Result:", result.title);
 console.log("Answers:", answers);
   const audio = new Audio('quiz-finish.wav');
-  audio.play().catch(() => {});
+audio.volume = 0.28;
+audio.play().catch(() => {});
 
   document.getElementById("progressWrap").style.display = "none";
 
