@@ -198,6 +198,7 @@
 
   .option-btn {
     background: rgba(255,255,255,0.5);
+    transform-origin: center;
     border: 2px solid var(--parchment-deeper);
     border-radius: 4px;
     padding: 14px 16px;
@@ -218,10 +219,10 @@
   }
 
   .option-btn:hover {
-    border-color: var(--forest-light);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px var(--shadow);
-  }
+  border-color: var(--forest-light);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 16px var(--shadow);
+}
 
   .option-btn:hover::before { opacity: 0.08; }
 
@@ -996,6 +997,8 @@ function getResult(answers) {
 let currentQ = 0;
 let answers = {};
 
+const clickAudio = new Audio('quiz-click.wav');
+clickAudio.volume = 0.45;
 function renderQuestion() {
   const q = questions[currentQ];
 const pct = Math.round((currentQ / questions.length) * 100);  
@@ -1023,9 +1026,18 @@ document.getElementById("progressLabel").textContent = `Adventure Match Progress
 }
 
 function selectOption(qId, value, btn) {
+
+  clickAudio.currentTime = 0;
+  clickAudio.play().catch(() => {});
+
   answers[qId] = value;
-  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+
+  document
+    .querySelectorAll('.option-btn')
+    .forEach(b => b.classList.remove('selected'));
+
   btn.classList.add('selected');
+
   document.getElementById("nextBtn").disabled = false;
 }
 
