@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your Perfect Adventure – Cavalier Adventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Gochi+Hand&family=Lexend:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#111;--purple:#6a2fc9;--gold:#ffd23f;--green:#1f8a3b}
+body{background:#fff;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px 14px 48px;font-family:'Lexend',sans-serif;color:var(--ink)}
+button,input{font-family:inherit}
+button{cursor:pointer}
+button:disabled{cursor:default}
+:focus-visible{outline:4px solid var(--purple);outline-offset:3px}
+
+.quiz-wrap{width:100%;max-width:680px;background:radial-gradient(circle at 15% 8%,rgba(255,255,255,.6),transparent 40%),radial-gradient(circle at 85% 92%,rgba(190,160,90,.28),transparent 45%),linear-gradient(160deg,#f6edcf,#ecdcae);border:4px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);overflow:hidden}
+
+/* header */
+.quiz-header{text-align:center;padding:24px 22px 14px;border-bottom:4px solid var(--ink)}
+.site-badge{display:block;font-weight:800;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.quiz-title{font-family:'Bangers',cursive;font-weight:400;font-size:clamp(36px,9vw,54px);letter-spacing:2px;line-height:1;text-transform:uppercase}
+.quiz-title span{color:var(--purple)}
+.quiz-subtitle{font-family:'Gochi Hand',cursive;font-size:22px;margin-top:6px}
+
+/* progress */
+.progress-wrap{padding:12px 24px;border-bottom:2px dashed rgba(17,17,17,.4)}
+.progress-label{display:flex;justify-content:space-between;font-weight:800;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px}
+.progress-bar{height:22px;border:3px solid var(--ink);border-radius:6px;background:#fff;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#ff3b6b,#ff8aa8);transition:width .4s ease}
+
+/* question */
+.question-area{padding:22px 26px 10px;min-height:340px;animation:slideIn .25s ease}
+.q-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.stat-box{flex-shrink:0;min-width:58px;height:58px;border:4px solid var(--ink);background:#fff;display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:26px;letter-spacing:1px;box-shadow:3px 3px 0 var(--ink);padding:0 6px}
+.question-text{font-family:'Bangers',cursive;font-size:clamp(24px,5.5vw,33px);letter-spacing:1px;line-height:1.1}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.option-btn{display:flex;align-items:flex-start;gap:12px;min-height:76px;background:rgba(255,255,255,.78);border:3px solid var(--ink);border-radius:10px;padding:12px;text-align:left;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s,background .12s;color:var(--ink)}
+.option-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);background:#fff}
+.option-btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.option-btn.selected{background:#e9dcff;border-color:var(--purple);box-shadow:4px 4px 0 var(--purple)}
+.option-key{flex-shrink:0;width:34px;height:34px;border:3px solid var(--ink);background:#fff;display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:21px;border-radius:4px}
+.option-btn.selected .option-key{background:var(--purple);color:#fff;border-color:var(--ink)}
+.option-label{display:block;font-weight:800;font-size:14.5px;line-height:1.25}
+.option-desc{display:block;font-family:'Gochi Hand',cursive;font-size:19px;line-height:1.15;margin-top:2px;color:#333}
+
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:10px 26px 20px}
+.nav-back{background:none;border:none;font-weight:600;font-size:14px;min-height:44px;padding:0 6px;opacity:.8}
+.nav-back:disabled{opacity:.3}
+.nav-hint{font-family:'Gochi Hand',cursive;font-size:18px;opacity:.75}
+
+/* result */
+.result-wrap{padding:22px 24px 26px;animation:pop .4s ease}
+.result-badge{display:inline-block;background:var(--ink);color:var(--gold);font-weight:800;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:6px;margin-bottom:12px}
+.result-title{font-family:'Bangers',cursive;font-weight:400;font-size:clamp(34px,8vw,50px);letter-spacing:1.5px;line-height:1}
+.result-tagline{font-family:'Gochi Hand',cursive;font-size:25px;color:var(--purple);margin:4px 0 14px}
+.result-why{font-size:15px;line-height:1.6;border-left:6px solid var(--purple);background:rgba(255,255,255,.55);padding:12px 14px;margin-bottom:18px;border-radius:0 8px 8px 0}
+.result-card{border:3px solid var(--ink);border-radius:12px;background:rgba(255,255,255,.4);padding:18px;margin-bottom:18px}
+.result-card h3{font-family:'Bangers',cursive;font-weight:400;font-size:28px;letter-spacing:1px;text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:5px;margin-bottom:18px}
+.product-link{display:block;text-decoration:none;color:inherit;margin-bottom:16px}
+.product-rec{position:relative;display:flex;align-items:stretch;gap:14px;background:#fff;border:3px solid var(--ink);border-radius:10px;padding:14px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.product-rec:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.featured-product{border-color:var(--purple);background:#fbf6ff;box-shadow:4px 4px 0 var(--purple)}
+.featured-product::before{content:'BEST MATCH';position:absolute;top:-13px;left:14px;background:var(--gold);border:2px solid var(--ink);border-radius:4px;font-weight:800;font-size:10.5px;letter-spacing:1.5px;padding:3px 9px}
+.price-box{flex-shrink:0;width:86px;border:3px solid var(--ink);border-radius:4px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px 4px}
+.price-box b{font-family:'Bangers',cursive;font-weight:400;font-size:27px;letter-spacing:1px;line-height:1;color:var(--green)}
+.price-box small{font-weight:800;font-size:9.5px;letter-spacing:1px;margin-top:5px;line-height:1.2}
+.product-name{font-family:'Bangers',cursive;font-size:25px;letter-spacing:1px;line-height:1.05;margin-bottom:4px}
+.product-desc{font-family:'Gochi Hand',cursive;font-size:20px;line-height:1.2}
+.cta-primary,.cta-secondary{display:block;text-align:center;text-decoration:none;border:3px solid var(--ink);border-radius:12px;transition:transform .1s,box-shadow .1s}
+.cta-primary{font-family:'Bangers',cursive;font-size:clamp(22px,5vw,29px);letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:var(--purple);padding:14px;box-shadow:5px 5px 0 var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.cta-primary:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.cta-secondary{font-family:'Bangers',cursive;font-size:23px;letter-spacing:1px;color:var(--ink);background:#fff;padding:11px;box-shadow:4px 4px 0 var(--ink)}
+.cta-secondary:hover{background:var(--gold)}
+.cta-wrap{display:flex;flex-direction:column;gap:12px;margin-bottom:6px}
+
+/* email capture */
+.email-card{border:3px dashed var(--ink);border-radius:12px;background:rgba(255,255,255,.5);padding:16px 16px 14px;margin:20px 0 14px}
+.email-card h3{font-family:'Bangers',cursive;font-weight:400;font-size:26px;letter-spacing:1px;line-height:1.1}
+.email-card p{font-size:13.5px;line-height:1.5;margin:6px 0 12px}
+.email-row{display:flex;gap:10px}
+.email-input{flex:1;min-width:0;min-height:48px;background:#fff;border:3px solid var(--ink);border-radius:8px;padding:0 12px;font-size:16px;color:var(--ink)}
+.email-submit{min-height:48px;font-family:'Bangers',cursive;font-size:22px;letter-spacing:1px;background:var(--gold);color:var(--ink);border:3px solid var(--ink);border-radius:8px;padding:0 18px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
+.email-submit:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.email-submit:disabled{opacity:.5}
+.email-small{font-size:11.5px;opacity:.75;margin:8px 0 0!important}
+.email-msg{font-family:'Gochi Hand',cursive;font-size:21px;margin-top:8px}
+.email-msg.err{color:#b3261e}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.restart-btn{display:block;width:100%;min-height:44px;background:none;border:none;text-align:center;text-decoration:underline;font-size:13px;opacity:.7}
+.restart-btn:hover{opacity:1}
+
+.quiz-footer{text-align:center;padding:10px 20px 16px;border-top:4px solid var(--ink)}
+.quiz-footer a{font-weight:800;font-size:13px;color:var(--ink);text-decoration:none}
+
+@keyframes pop{0%{transform:scale(.94);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+@media(max-width:480px){
+  .options-grid{grid-template-columns:1fr}
+  .question-area{padding:18px 16px 8px}
+  .nav-wrap{padding:8px 16px 18px}
+  .progress-wrap{padding:12px 16px}
+  .result-wrap{padding:20px 16px 22px}
+  .price-box{width:72px}
+  .email-row{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="quiz-wrap">
+  <div class="quiz-header">
+    <span class="site-badge">Cavalier Adventures</span>
+    <h1 class="quiz-title">Find Your Perfect <span>Adventure</span></h1>
+    <p class="quiz-subtitle" id="subtitle">A few quick questions &middot; under a minute</p>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-label"><span>Quest progress</span><span id="progressText">Step 1</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div id="quizBody" aria-live="polite"></div>
+
+  <div class="quiz-footer"><a href="https://www.cavalieradventures.com.au" target="_blank" rel="noopener">cavalieradventures.com.au</a></div>
+</div>
+
+<script>
+/* =====================  SETTINGS (edit these)  ===================== */
+// Google Analytics 4 ID, e.g. "G-XXXXXXXXXX". Leave "" to skip.
+const GA_ID = "";
+
+// MailerLite embedded-form address, e.g.
+// "https://assets.mailerlite.com/jsonp/123456/forms/7891011/subscribe"
+// Leave "" and the email box shows a visible "demo mode" notice instead of saving.
+const MAILERLITE_ACTION = "";
+
+const EMAIL_HEADING = "Want your picks in your inbox?";
+const EMAIL_BODY = "We'll email your adventure matches so you can come back to them, plus new adventure news.";
+const SOUND_BASE = "";   // folder/URL holding quiz-click.wav & quiz-finish.wav ("" = same folder)
+const UTM = "utm_source=quiz&utm_medium=site_embed&utm_campaign=adventure_finder";
+/* ================================================================== */
+
+/* ----------  Measurement  ---------- */
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+if (GA_ID) {
+  const s = document.createElement("script");
+  s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+  document.head.appendChild(s);
+  gtag("js", new Date()); gtag("config", GA_ID);
+}
+function track(event, props) {
+  props = props || {};
+  try { if (GA_ID) gtag("event", event, props); } catch (e) {}
+  try { if (window.plausible) window.plausible(event, { props: props }); } catch (e) {}
+  try { window.parent !== window && window.parent.postMessage({ source: "cavalier-quiz", event: event, props: props }, "*"); } catch (e) {}
+  console.log("[quiz]", event, props);
+}
+
+/* ----------  Questions  ---------- */
+const Q = {
+  age: { text: "How old are the kids who'll be playing?", options: [
+    { label: "Very young", desc: "Ages 3–5", value: "3-5" },
+    { label: "Little adventurers", desc: "Ages 5–8", value: "5-8" },
+    { label: "Young heroes", desc: "Ages 7–12", value: "7-12" },
+    { label: "Mixed ages", desc: "Different ages together", value: "mixed" } ] },
+  experience: { text: "Has your family played D&D or a role-playing game before?", options: [
+    { label: "Total newcomers", desc: "Never played before", value: "none" },
+    { label: "Curious beginners", desc: "Tried it once or twice", value: "beginner" },
+    { label: "Some experience", desc: "Played a few times", value: "some" },
+    { label: "Experienced adventurers", desc: "Already love RPGs", value: "experienced" } ] },
+  time: { text: "What type of adventure are you looking for?", options: [
+    { label: "Quick one-shot", desc: "30–90 minute adventure", value: "oneshot" },
+    { label: "Full campaign", desc: "Multiple sessions over weeks", value: "campaign" },
+    { label: "Family game nights", desc: "Something replayable", value: "family" },
+    { label: "Not sure yet", desc: "Just exploring options", value: "flexible" } ] },
+  theme: { text: "Which adventure theme sounds most exciting?", options: [
+    { label: "Magical forest", desc: "Fairies, mystery, enchanted woods", value: "forest" },
+    { label: "Underground caves", desc: "Dungeons and monsters", value: "cave" },
+    { label: "Sky pirates", desc: "Airships and flying islands", value: "sky" },
+    { label: "Desert adventure", desc: "Ruins, treasure, mystery", value: "desert" } ] },
+  budget: { text: "What's your adventure budget today?", options: [
+    { label: "Free to start", desc: "Just want to try it first", value: "free" },
+    { label: "Under $25", desc: "Affordable starter", value: "low" },
+    { label: "$25–$50", desc: "Ready for a proper adventure", value: "mid" },
+    { label: "$50+", desc: "Give me the full experience", value: "high" } ] }
+};
+
+// Shorter for younger kids: the old answers for those ages never changed the result.
+function path() {
+  const age = answers.age;
+  if (!age) return ["age"];
+  if (age === "3-5" || age === "mixed") return ["age"];
+  if (age === "5-8") return ["age", "time", "budget"];
+  return ["age", "experience", "time", "theme", "budget"];
+}
+
+/* ----------  Products  ---------- */
+const BASE = "https://www.cavalieradventures.com.au/shop/p/";
+const products = {
+  sleepyGiant: { label: "One-shot", name: "The Sleepy Giant", desc: "A very simple mini one-shot for ages 3–5. Sweet, simple, and magical.", price: "$9", slug: "sleepy-giant" },
+  andrewsApples: { label: "One-shot", name: "Andrew's Amazing Apples", desc: "Beginner mini one-shot for ages 5–8. The perfect first adventure.", price: "$9", slug: "andrews-amazing-apples-rs6dw" },
+  starterPack58: { label: "3 adventures", name: "Starter Pack (Ages 5–8)", desc: "The easiest way to start RPGs with young kids. 3 adventures included.", price: "$32", slug: "andrews-amazing-apples" },
+  freeAdventure: { label: "One-shot", name: "FREE: The Chest That Bites Back", desc: "A complete one-shot adventure for ages 7–12. Free — no risk, just fun.", price: "FREE", slug: "freesamplednd" },
+  hollowCaves: { label: "One-shot", name: "Beast of the Hollow Caves", desc: "One-shot adventure for ages 7–12. 60–90 minutes, no prep needed.", price: "$14", slug: "hollow-caves" },
+  enchantedForest: { label: "Campaign", name: "The Enchanted Forest Campaign", desc: "Full campaign for ages 7–12 with maps, standees & pre-made characters.", price: "$32", slug: "the-enchanted-forest-kids-dnd-campaign" },
+  skyPirates: { label: "One-shot", name: "Sky Pirates & the Dragon's Gem", desc: "High-flying one-shot adventure. Great for action-loving kids.", price: "$30", slug: "sky-pirates-and-the-dragons-gem" },
+  goldenOasis: { label: "Adventure", name: "The Golden Oasis", desc: "Desert adventure for ages 7–12. Mystery, ancient ruins, and treasure.", price: "$30", slug: "the-golden-oasis" },
+  starterKit5x: { label: "5 adventures", name: "Kids DnD Starter Kit — 5x Bundle", desc: "5 adventures for ages 7–12. Best value for a full year of game nights.", price: "$44.99", slug: "kids-starter-bundle-kit" },
+  campaignBundle: { label: "2 campaigns", name: "Campaign Bundle — Enchanted Forest + Sky Pirates", desc: "Two full campaigns back to back. Weeks of adventure.", price: "$49", slug: "campaign-bundle" },
+  familyBundle: { label: "3 + book", name: "Family Game Night Bundle", desc: "3 adventures + coloring book for kids ages 5–12. Mixed ages welcome!", price: "$49", slug: "family-game-night-bundle" },
+  megaSet: { label: "6 adventures", name: "The Mega Adventure Set", desc: "6 adventures for all ages. The ultimate collection.", price: "$79", slug: "mega-pack" },
+  dmGuide: { label: "56-page guide", name: "Kids DM Guide", desc: "56-page guide for parents, teachers & first-time DMs (ages 5–8).", price: "$20", slug: "dungeon-master-guide" },
+  weekendBundle: { label: "3 adventures", name: "Weekend Bundle (3 Adventures)", desc: "3 one-shot adventures for ages 7–12. Perfect for a big game weekend.", price: "$45", slug: "weekend-pack-7-12" }
+};
+
+/* ----------  Result logic (same rules as your original)  ---------- */
+function getResult(a) {
+  const P = products;
+  if (a.age === "3-5") return { title: "The Tiny Hero's First Quest", tagline: "Gentle adventures for the littlest adventurers",
+    why: "For ages 3–5, you need something truly simple and magical. The Sleepy Giant is designed exactly for this — short, sweet, and full of wonder. No complicated rules, just storytelling fun.",
+    primary: P.sleepyGiant, secondary: P.andrewsApples, bonus: null };
+  if (a.age === "5-8") {
+    if (a.budget === "free") return { title: "The Young Explorer's Start", tagline: "Easy adventures for ages 5–8",
+      why: "Andrew's Amazing Apples is the perfect first adventure for younger kids. It's simple, fun, and takes about 45 minutes. Start free or grab the full Starter Pack for three adventures at great value.",
+      primary: P.andrewsApples, secondary: P.starterPack58, bonus: null };
+    if (a.budget === "high" || a.time === "campaign") return { title: "The Young Hero's Journey", tagline: "A full adventure path for ages 5–8",
+      why: "Your young adventurers are ready for a proper quest! The Starter Pack gives you three beautifully crafted adventures — enough for a whole campaign. Add the DM Guide if you're brand new to running games.",
+      primary: P.starterPack58, secondary: P.dmGuide, bonus: null };
+    return { title: "Little Heroes, Big Adventures", tagline: "Perfect for ages 5–8",
+      why: "For younger kids, Andrew's Amazing Apples is the ideal starting point — specifically designed for ages 5–8 with simple rules and a fun story they'll love. If you enjoy it, the full Starter Pack is incredible value.",
+      primary: P.andrewsApples, secondary: P.starterPack58, bonus: null };
+  }
+  if (a.age === "mixed") return { title: "The Family Adventure", tagline: "Perfect for mixed ages and big groups",
+    why: "The Family Game Night Bundle is built exactly for this — 3 adventures that work for a mix of ages (5–12) including a coloring book for younger ones. It's one of your best value options.",
+    primary: P.familyBundle, secondary: P.starterKit5x, bonus: P.freeAdventure };
+  // ages 7-12
+  if (a.budget === "free") return { title: "The Brave Beginner", tagline: "Start your adventure for free!",
+    why: "Start absolutely free with The Chest That Bites Back — a complete one-shot adventure for ages 7–12. It takes about 60 minutes and requires zero prep. Once you love it (and you will), the 5x Starter Kit is waiting.",
+    primary: P.freeAdventure, secondary: P.hollowCaves, bonus: null };
+  if (a.theme === "sky" && a.budget !== "low") return { title: "The Sky Pirate's Quest", tagline: "High-flying adventure for action-loving kids",
+    why: "Sky Pirates & the Dragon's Gem is perfect for you — an action-packed adventure with airships, daring heists, and epic moments kids talk about for weeks. Pair it with the Campaign Bundle to get the full Enchanted Forest campaign too.",
+    primary: P.skyPirates, secondary: P.campaignBundle, bonus: P.freeAdventure };
+  if (a.theme === "desert") return { title: "The Desert Seeker", tagline: "Mystery and ancient treasure await",
+    why: "The Golden Oasis is a beautifully crafted desert adventure full of ancient ruins, puzzles, and golden sands. It's one of our most visually stunning products — perfect for kids who love mystery and exploration.",
+    primary: P.goldenOasis, secondary: P.starterKit5x, bonus: P.freeAdventure };
+  if (a.time === "campaign" || a.experience === "experienced") {
+    if (a.budget === "high") return { title: "The Grand Campaigner", tagline: "A full epic adventure awaits your party",
+      why: "You're ready for the full experience. The Campaign Bundle gives you both full campaigns back-to-back — The Enchanted Forest and Sky Pirates — enough for months of sessions. For the ultimate collection, the Mega Adventure Set has everything.",
+      primary: P.campaignBundle, secondary: P.megaSet, bonus: null };
+    return { title: "The Campaign Quest", tagline: "A multi-session adventure your party will love",
+      why: "You're ready for a real campaign! The Enchanted Forest is our flagship product — a full multi-session campaign with maps, standees, and pre-made characters. No prep required.",
+      primary: P.enchantedForest, secondary: P.campaignBundle, bonus: P.freeAdventure };
+  }
+  if (a.budget === "high") return { title: "The Ultimate Adventure Kit", tagline: "Maximum value for your gold coins",
+    why: "For the best value by far, the 5x Starter Kit gives you 5 complete adventures for ages 7–12 — that's less than $9 each. If you want even more, the Mega Adventure Set is the complete collection across all ages.",
+    primary: P.starterKit5x, secondary: P.megaSet, bonus: P.freeAdventure };
+  if (a.budget === "mid") {
+    if (a.theme === "cave") return { title: "The Cave Delver's Quest", tagline: "Action-packed adventure for ages 7–12",
+      why: "For action-loving kids, Beast of the Hollow Caves delivers the monster battles and dungeon thrills they crave. Or step up to the Weekend Bundle for three full adventures at incredible value.",
+      primary: P.hollowCaves, secondary: P.weekendBundle, bonus: P.freeAdventure };
+    return { title: "The Weekend Adventurer", tagline: "A full weekend of quests and glory",
+      why: "The Weekend Bundle gives you 3 complete one-shot adventures for ages 7–12 — perfect for a long weekend or a few game nights over a month. No prep, just print and play.",
+      primary: P.weekendBundle, secondary: P.enchantedForest, bonus: P.freeAdventure };
+  }
+  return { title: "Your First Quest Awaits", tagline: "The perfect starting point for new adventurers",
+    why: "Start with our free adventure to see how easy and fun it is. When you're ready to expand, Beast of the Hollow Caves is a brilliant one-shot that takes about 60–90 minutes with no prep at all.",
+    primary: P.freeAdventure, secondary: P.hollowCaves, bonus: null };
+}
+
+/* ----------  App  ---------- */
+let answers = {}, step = 0, started = false, completed = false, t0 = Date.now(), lastResult = null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+function playSound(file, vol) { try { const a = new Audio(SOUND_BASE + file); a.volume = vol; a.play().catch(() => {}); } catch (e) {} }
+const urlFor = (p, pos) => BASE + p.slug + "?" + UTM + "&utm_content=" + slug(lastResult ? lastResult.title : "quiz") + "_" + pos;
+
+function render() {
+  const p = path(), id = p[step], q = Q[id], known = !!answers.age;
+  $("progressWrap").style.display = "block";
+  $("progressText").textContent = known ? "Step " + (step + 1) + " of " + p.length : "Step 1";
+  $("progressFill").style.width = (known ? (step / p.length) * 100 : 0) + "%";
+  $("quizBody").innerHTML = `
+    <div class="question-area">
+      <div class="q-head">
+        <div class="stat-box">${step + 1}${known ? "/" + p.length : ""}</div>
+        <div class="question-text">${esc(q.text)}</div>
+      </div>
+      <div class="options-grid">
+        ${q.options.map((o, i) => `
+          <button class="option-btn ${answers[id] === o.value ? "selected" : ""}" data-q="${id}" data-v="${o.value}">
+            <span class="option-key">${"ABCD"[i]}</span>
+            <span><span class="option-label">${esc(o.label)}</span><span class="option-desc">${esc(o.desc)}</span></span>
+          </button>`).join("")}
+      </div>
+    </div>
+    <div class="nav-wrap">
+      <button class="nav-back" id="backBtn" ${step === 0 ? "disabled" : ""}>← Back</button>
+      <span class="nav-hint">Tap an answer to continue</span>
+    </div>`;
+}
+
+function choose(qid, value, btn) {
+  if (!started) { started = true; track("quiz_start", {}); }
+  playSound("quiz-click.wav", 0.45);
+  answers[qid] = value;
+  document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+  btn.classList.add("selected");
+  const total = path().length;
+  track("quiz_answer", { question: qid, answer: value, step: step + 1, total_steps: total });
+  setTimeout(() => {
+    step++;
+    if (step >= path().length) showResult(); else render();
+  }, 280);
+}
+
+function productCard(p, featured, pos) {
+  return `
+    <a class="product-link" href="${urlFor(p, pos)}" target="_blank" rel="noopener" data-name="${esc(p.name)}" data-pos="${pos}">
+      <div class="product-rec ${featured ? "featured-product" : ""}">
+        <div class="price-box"><b>${esc(p.price)}</b><small>${esc(p.label.toUpperCase())}</small></div>
+        <div>
+          <div class="product-name">${esc(p.name)}</div>
+          <div class="product-desc">${esc(p.desc)}</div>
+        </div>
+      </div>
+    </a>`;
+}
+
+function showResult() {
+  completed = true;
+  const r = getResult(answers); lastResult = r;
+  const showEmail = !!MAILERLITE_ACTION || /[?&]preview/.test(location.search);
+  playSound("quiz-finish.wav", 0.28);
+  track("quiz_complete", { result: slug(r.title), primary: r.primary.name, age: answers.age, budget: answers.budget || "n/a",
+    questions: path().length, seconds: Math.round((Date.now() - t0) / 1000) });
+  $("progressWrap").style.display = "none";
+  $("subtitle").textContent = "Your matches are ready";
+  $("quizBody").innerHTML = `
+    <div class="result-wrap">
+      <span class="result-badge">Your Adventure Match</span>
+      <h2 class="result-title">${esc(r.title)}</h2>
+      <p class="result-tagline">${esc(r.tagline)}</p>
+      <p class="result-why">${esc(r.why)}</p>
+
+      <div class="result-card">
+        <h3>Recommended for You</h3>
+        ${productCard(r.primary, true, "primary")}
+        ${productCard(r.secondary, false, "secondary")}
+        ${r.bonus ? productCard(r.bonus, false, "bonus") : ""}
+      </div>
+
+      <div class="cta-wrap">
+        <a class="cta-primary" href="${urlFor(r.primary, "cta")}" target="_blank" rel="noopener" data-name="${esc(r.primary.name)}" data-pos="cta">Get ${esc(r.primary.name)} →</a>
+        <a class="cta-secondary" href="https://www.cavalieradventures.com.au/shop?${UTM}&utm_content=${slug(r.title)}_browse" target="_blank" rel="noopener" data-name="browse_all" data-pos="browse">Browse All Adventures</a>
+      </div>
+
+      ${showEmail ? `
+      <form class="email-card" id="emailForm" novalidate>
+        <h3>${esc(EMAIL_HEADING)}</h3>
+        <p>${esc(EMAIL_BODY)}</p>
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="email-row">
+          <input class="email-input" type="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="Your email address">
+          <button class="email-submit" type="submit">Send my picks</button>
+        </div>
+        <p class="email-small">No spam. Unsubscribe any time.</p>
+        <div class="email-msg" id="emailMsg" role="status"></div>
+      </form>
+      ` : ""}
+
+      <div style="margin-top:6px">
+        <div class="trust-badge" style="text-align:center;font-family:'Gochi Hand',cursive;font-size:20px;border:2px dashed #111;border-radius:10px;padding:10px;margin-bottom:10px">Trusted by 446+ families who backed The Enchanted Forest on Kickstarter</div>
+        <button class="restart-btn" id="restartBtn">↩ Retake the quiz</button>
+      </div>
+    </div>`;
+  if ($("emailForm")) $("emailForm").addEventListener("submit", submitEmail);
+  $("restartBtn").addEventListener("click", restart);
+}
+
+async function submitEmail(e) {
+  e.preventDefault();
+  const f = e.target, msg = $("emailMsg"), btn = f.querySelector("button");
+  msg.className = "email-msg";
+  if (f.website.value) return;                              // honeypot: bots only
+  const email = f.email.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.className = "email-msg err"; msg.textContent = "Please check your email address."; return; }
+  btn.disabled = true;
+  track("email_submit", { result: slug(lastResult.title), configured: !!MAILERLITE_ACTION });
+  if (!MAILERLITE_ACTION) {
+    msg.className = "email-msg err";
+    msg.textContent = "Demo mode: email NOT saved yet (add your MailerLite address in the settings).";
+    btn.disabled = false; return;
+  }
+  const fd = new FormData();
+  fd.append("fields[email]", email);
+  fd.append("fields[quiz_result]", lastResult.title);
+  fd.append("fields[quiz_age]", answers.age || "");
+  fd.append("fields[quiz_experience]", answers.experience || "");
+  fd.append("fields[quiz_budget]", answers.budget || "");
+  fd.append("fields[quiz_theme]", answers.theme || "");
+  fd.append("ml-submit", "1"); fd.append("anticsrf", "true");
+  try {
+    await fetch(MAILERLITE_ACTION, { method: "POST", body: fd, mode: "no-cors" });
+    msg.textContent = "Done! Check your inbox shortly.";
+    f.querySelector(".email-row").style.display = "none";
+  } catch (err) {
+    track("email_error", {});
+    msg.className = "email-msg err"; msg.textContent = "Hmm, that didn't send. Please try again."; btn.disabled = false;
+  }
+}
+
+function restart() {
+  track("quiz_restart", {});
+  answers = {}; step = 0; started = false; completed = false; t0 = Date.now(); lastResult = null;
+  $("subtitle").innerHTML = "A few quick questions &middot; under a minute";
+  render();
+}
+
+/* events */
+document.addEventListener("click", e => {
+  const opt = e.target.closest(".option-btn");
+  if (opt) return choose(opt.dataset.q, opt.dataset.v, opt);
+  if (e.target.closest("#backBtn") && step > 0) { track("quiz_back", { from_step: step + 1 }); step--; return render(); }
+  const link = e.target.closest("a[data-pos]");
+  if (link) track("product_click", { product: link.dataset.name, position: link.dataset.pos, result: lastResult ? slug(lastResult.title) : "" });
+});
+window.addEventListener("pagehide", () => {
+  if (started && !completed) track("quiz_abandon", { step: step + 1, last_question: path()[step] || "" });
+});
+
+track("quiz_view", {});
+render();
+</script>
+</body>
+</html>
