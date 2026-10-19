@@ -333,6 +333,7 @@ function productCard(p, featured, pos) {
 function showResult() {
   completed = true;
   const r = getResult(answers); lastResult = r;
+  const showEmail = !!MAILERLITE_ACTION || /[?&]preview/.test(location.search);
   playSound("quiz-finish.wav", 0.28);
   track("quiz_complete", { result: slug(r.title), primary: r.primary.name, age: answers.age, budget: answers.budget || "n/a",
     questions: path().length, seconds: Math.round((Date.now() - t0) / 1000) });
@@ -357,6 +358,7 @@ function showResult() {
         <a class="cta-secondary" href="https://www.cavalieradventures.com.au/shop?${UTM}&utm_content=${slug(r.title)}_browse" target="_blank" rel="noopener" data-name="browse_all" data-pos="browse">Browse All Adventures</a>
       </div>
 
+      ${showEmail ? `
       <form class="email-card" id="emailForm" novalidate>
         <h3>${esc(EMAIL_HEADING)}</h3>
         <p>${esc(EMAIL_BODY)}</p>
@@ -368,13 +370,14 @@ function showResult() {
         <p class="email-small">No spam. Unsubscribe any time.</p>
         <div class="email-msg" id="emailMsg" role="status"></div>
       </form>
+      ` : ""}
 
       <div style="margin-top:6px">
         <div class="trust-badge" style="text-align:center;font-family:'Gochi Hand',cursive;font-size:20px;border:2px dashed #111;border-radius:10px;padding:10px;margin-bottom:10px">Trusted by 446+ families who backed The Enchanted Forest on Kickstarter</div>
         <button class="restart-btn" id="restartBtn">↩ Retake the quiz</button>
       </div>
     </div>`;
-  $("emailForm").addEventListener("submit", submitEmail);
+  if ($("emailForm")) $("emailForm").addEventListener("submit", submitEmail);
   $("restartBtn").addEventListener("click", restart);
 }
 
